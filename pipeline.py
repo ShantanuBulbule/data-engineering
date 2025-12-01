@@ -32,5 +32,28 @@ def names_match(constructed_name, paid_name):
 
 #memberinfo = list(map(build_full_name, memberinfo))
 #print(memberinfo)
+def process_records(memberinfo, memberPaidInfo):
+    memberinfoDict = {row['memberId']: row for row in memberinfo}
+    valid_records = []
+    for paid in memberPaidInfo:
+        memberId = paid['memberId']
+    
+        if memberId not in memberinfoDict:
+            continue
+        infoRow = memberinfoDict[memberId]
 
+        if not is_full_name(infoRow):
+            continue
+        constructedName = build_full_name(infoRow)
+        paidName = paid['fullName'].strip()
+        if paidName:
+            if not names_match(constructedName, paidName):
+                continue
+        valid_records.append({
+            'memberId': memberId,
+            'fullName': constructedName,
+            'paidAmount': paid['paidAmount']
+        })
+    return valid_records
 
+#print(process_records(memberinfo, memberPaidInfo))
