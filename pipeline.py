@@ -56,4 +56,22 @@ def process_records(memberinfo, memberPaidInfo):
         })
     return valid_records
 
+def generate_report(valid_records):
+    print("Records Summary:")
+    if len(valid_records) == 0:
+        print("No valid records found.")
+        return
+    print("="*60)
+    print(f"Total records: {len(valid_records)}")
+    print(f"Highest amount paid: {max(float(record['paidAmount']) for record in valid_records)}")
+    print("\n" + "="*60)
+    print("Highest paid member information:")
+    highestPaidMember = max(valid_records, key=lambda record: float(record['paidAmount']))
+    print("Member ID: " + highestPaidMember['memberId'])
+    print("Name: " + highestPaidMember['fullName'])
+    print("Paid Amount: " + highestPaidMember['paidAmount'])
+    print("\n" + "="*60)
+    print(f"Total amount paid: {sum(float(record['paidAmount']) for record in valid_records)}")
+    print("="*60)
 #print(process_records(memberinfo, memberPaidInfo))
+generate_report(process_records(memberinfo, memberPaidInfo))
