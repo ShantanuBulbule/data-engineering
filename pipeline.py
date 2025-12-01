@@ -75,3 +75,11 @@ def generate_report(valid_records):
     print("="*60)
 #print(process_records(memberinfo, memberPaidInfo))
 generate_report(process_records(memberinfo, memberPaidInfo))
+
+def generate_csv(valid_records):
+    with open('data/output/cleaned_members.csv', 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=['memberId', 'fullName', 'paidAmount'])
+        writer.writeheader()
+        writer.writerows(valid_records)
+
+generate_csv(process_records(memberinfo, memberPaidInfo))
